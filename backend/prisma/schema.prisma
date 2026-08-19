@@ -1,7 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
   provider = "prisma-client"
@@ -10,4 +6,50 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model User{
+  id String @id @default(uuid())
+  name String
+  email String @unique
+
+  studyGroups StudyGroupMembers[]
+  tasks Task[]
+}
+
+model StudyGroup{
+  id String @id @default(uuid())
+  name String
+  description String?
+  createAt DateTime @default(now())
+
+  members StudyGroupMembers[]
+  task Task[]
+}
+
+model StudyGroupMembers{
+  id String @id @default(uuid())
+  userId String
+  studyGroupId String
+  joinedAt DateTime @default(now())
+
+  user  User @relation(fields: [userId], references: [id])
+  studyGroup StudyGroup @relation(fields: [studyGroupId], references: [id])
+
+  @@unique([userId, studyGroupId])
+}
+
+model Task {
+  id String @id @default(uuid())
+  title String 
+  description String?
+  done Boolean @default(false)
+  dueDate DateTime?
+  createAt DateTime @default(now())
+
+  userId String
+  studyGroupId String?
+
+  user User @relation(fields: [userId], references: [id])
+  studyGroup StudyGroup? @relation(fields: [studyGroupId], references: [id])
 }
