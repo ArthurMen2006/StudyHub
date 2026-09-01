@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import statusRoutes from './routes/statusRoute.js'
 import userRoutes from './routes/userRoute.js'
+import taskRoute from './routes/taskRoute.js'
 
 
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/', statusRoutes);
 app.use('/users', userRoutes);
+app.use('/task',taskRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
