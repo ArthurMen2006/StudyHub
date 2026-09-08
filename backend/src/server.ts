@@ -5,6 +5,7 @@ import statusRoutes from './routes/statusRoute.js'
 import userRoutes from './routes/userRoute.js'
 import taskRoute from './routes/taskRoute.js'
 import studyGroupRoute from './routes/studyGroupRoute.js'
+import studyGroupMembersRoute from './routes/studyGroupMembersRoute.js'
 
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use('/', statusRoutes);
 app.use('/users', userRoutes);
 app.use('/task',taskRoute);
 app.use('/studyGroup',studyGroupRoute);
+app.use('/studyGroupMembers',studyGroupMembersRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);

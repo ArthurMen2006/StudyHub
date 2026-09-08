@@ -9,12 +9,6 @@ const adapter = new PrismaPg({
 })
 const prisma = new PrismaClient({ adapter })
 
-export async function createTask(title: string, description: string | null = null, userId: string) {
-    return prisma.task.create({
-        data: {title, description, userId},
-    });
-    
-}
 
 export async function getAllTask() {
     return prisma.task.findMany();
@@ -23,5 +17,23 @@ export async function getAllTask() {
 export async function getTaskById(id: string) {
     return prisma.task.findUnique({
         where: {id}
+    })
+}
+
+export async function createTask(title: string, description: string | null = null, userId: string) {
+    return prisma.task.create({
+        data: {title, description, userId},
+    });
+}
+export async function updateTask(taskId:string, title: string, description: string | null = null) {
+    return prisma.task.update({
+        data: {title,description},
+        where: {id: taskId}
+    })
+}
+
+export async function deleteTask(taskId:string) {
+    return prisma.task.delete({
+        where: {id: taskId}
     })
 }

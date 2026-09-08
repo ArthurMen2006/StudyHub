@@ -10,12 +10,6 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter })
 
-export async function createUser(name: string, email: string) {
-    return prisma.user.create({
-        data: {name,email},
-    });
-}
-
 export async function getAllUser() {
     return prisma.user.findMany();
 }
@@ -24,4 +18,23 @@ export async function getUserById(id: string) {
     return prisma.user.findUnique({
         where: { id },
     });
+}
+
+export async function createUser(name: string, email: string) {
+    return prisma.user.create({
+        data: {name,email},
+    });
+}
+
+export async function updateUser(userId:string, name: string, email: string) {
+    return prisma.user.update({
+        data: {name,email},
+        where: {id:userId}
+    })
+}
+
+export async function deleteUser(userId:string) {
+    return prisma.user.delete({
+        where: {id:userId}
+    })
 }
