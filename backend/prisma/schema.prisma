@@ -12,6 +12,10 @@ model User{
   id String @id @default(uuid())
   name String
   email String @unique
+  provider String
+  providerId String @unique
+  avatarUrl String?
+  creatAt DateTime @default(now())
 
   studyGroups StudyGroupMembers[]
   tasks Task[]

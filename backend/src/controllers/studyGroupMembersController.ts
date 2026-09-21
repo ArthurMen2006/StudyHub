@@ -18,7 +18,7 @@ export const createStudyGroupMembersController = async(req:Request, res:Response
     res.status(201).json(studyGroupMembers)
 }
 
-export const updateStudyGroupMembersController = async(res:Response, req:Request) => {
+export const updateStudyGroupMembersController = async(req:Request, res:Response) => {
     const { id } = req.params
     const { userId, studyGroupId } = req.body
     const studyGroupMembers = await updateStudyGroupMembers (id as string, userId, studyGroupId)
