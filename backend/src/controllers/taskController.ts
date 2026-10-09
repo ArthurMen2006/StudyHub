@@ -13,8 +13,9 @@ export const getTaskByIdController = async(req:Request, res: Response)=>{
 }
 
 export const createTaskController = async(req:Request, res:Response)=>{
-    const {title, description, userId} = req.body;
-    const task= await createTask (title, description, userId);
+    const {title, description} = req.body;
+    const user = req.user as {id:string}
+    const task= await createTask (title,user.id, description);
     res.status(201).json(task);
 }
 

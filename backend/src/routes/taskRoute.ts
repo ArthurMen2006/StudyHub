@@ -3,6 +3,7 @@ import { Router } from 'express'
 
 const router = Router();
 
+
 router.get('/', getAllTaskController);
 router.get('/:id',getTaskByIdController);
 router.post('/',createTaskController);
