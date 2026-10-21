@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import {createStudyGroupMembers, deleteStudyGroupMembers,updateStudyGroupMembers, getAllStudyGroupMembers, getStudyGroupMembersById } from "../services/studyGroupMembersService"
+import { error } from "node:console";
 
 export const getAllStudyGroupMembersController = async(req: Request, res: Response) =>{
     const studyGroupMembers = await getAllStudyGroupMembers()
@@ -13,8 +14,9 @@ export const getStudyGroupMembersByIdController = async(req:Request, res:Respons
 }
 
 export const createStudyGroupMembersController = async(req:Request, res:Response) =>{
-    const { userId,studyGroupId } = req.body;
-    const studyGroupMembers = await createStudyGroupMembers( userId, studyGroupId);
+    const { studyGroupId } = req.body;
+    const user = req.user as {id: string}
+    const studyGroupMembers = await createStudyGroupMembers( user.id, studyGroupId);
     res.status(201).json(studyGroupMembers)
 }
 
@@ -27,6 +29,15 @@ export const updateStudyGroupMembersController = async(req:Request, res:Response
 
 export const deleteStudyGroupMembersController = async(req:Request, res:Response) => {
     const { id } = req.params
-    const studyGroupMembers = await deleteStudyGroupMembers(id as string)
-    res.status(204).json(studyGroupMembers)
+    const user = req.user as {id: string}
+    const member = await getStudyGroupMembersById(id as string)
+
+    if(!member){
+        return res.status(404).json(error)
+    }
+    if(member.userId !== user.id){
+        return res.status(403).json(error)
+    }
+    await deleteStudyGroupMembers (id as string)
+    res.status(204).send()
 }
