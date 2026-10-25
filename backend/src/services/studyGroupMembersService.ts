@@ -25,13 +25,6 @@ export async function createStudyGroupMembers(userId: string, studyGroupId: stri
     })
 }
 
-export async function updateStudyGroupMembers(studyGroupMembersId:string, userId: string, studyGroupId: string) {
-    return prisma.studyGroupMembers.update({
-        data: {userId,studyGroupId},
-        where:{id:studyGroupMembersId}
-    })
-}
-
 export async function deleteStudyGroupMembers(studyGroupMembersId:string) {
     return prisma.studyGroupMembers.delete({
         where: {id:studyGroupMembersId}

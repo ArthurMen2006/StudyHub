@@ -20,9 +20,9 @@ export async function getTaskById(id: string) {
     })
 }
 
-export async function createTask(title: string, description: string | null = null, userId: string) {
+export async function createTask(title: string, userId: string, description: string | null = null) {
     return prisma.task.create({
-        data: {title, description, userId},
+        data: { title, description, userId},
     });
 }
 export async function updateTask(taskId:string, title: string, description: string | null = null) {

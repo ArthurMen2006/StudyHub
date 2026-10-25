@@ -22,12 +22,34 @@ export const createTaskController = async(req:Request, res:Response)=>{
 export const updateTaskController = async(req:Request, res:Response) =>{
     const { id } = req.params
     const {title,description} = req.body
-    const task = await updateTask(id as string, title,description)
-    res.status(200).json(task)
+    const user = req.user as {id: string}
+    const task = await getTaskById(id as string)
+    
+    if(!task){
+        return res.status(404).json({error:"tarefa nao encontrada"})
+    }
+    if(task.userId !== user.id){
+        return res.status(403).json({error:"sem permissao"})
+    }
+
+    const update = await updateTask(id as string, title,description)
+    res.status(200).json(update)
 }
 
 export const deleteTaskController = async(req:Request, res:Response) =>{
     const { id } = req.params
-    const task = await deleteTask(id as string)
-    res.status(204).json(task)
+    const user = req.user as {id: string}
+
+    const task = await getTaskById(id as string)
+
+    if(!task){
+        return res.status(404).json({error:"tarefa nao encontrada"})
+    }
+
+    if(task.userId !== user.id){
+        return res.status(403).json({error:"sem permissao"})
+    }
+
+    await deleteTask(id as string)
+    res.status(204).send()
 }

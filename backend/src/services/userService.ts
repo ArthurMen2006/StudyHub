@@ -20,11 +20,6 @@ export async function getUserById(id: string) {
     });
 }
 
-export async function createUser(name: string, email: string) {
-    return prisma.user.create({
-        data: {name,email},
-    });
-}
 
 export async function updateUser(userId:string, name: string, email: string) {
     return prisma.user.update({
