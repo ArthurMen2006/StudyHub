@@ -15,12 +15,26 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 export const updateUserController = async (req: Request, res: Response) => {
     const { id } = req.params
     const { name, email } = req.body
+
+    const authenticatedUser = req.user as { id: string }
+
+    if (id !== authenticatedUser.id) {
+        return res.status(403).json({ error: "sem permissao" })
+    }
+
     const user = await updateUser(id as string, name, email)
     res.status(200).json(user)
 }
 
 export const deleteUserController = async (req:Request, res: Response) => {
     const { id } = req.params
+
+    const authenticatedUser = req.user as { id: string }
+
+    if (id !== authenticatedUser.id) {
+        return res.status(403).json({ error: "sem permissao" })
+    }
+
     const user = await deleteUser(id as string)
     res.status(204).json(user)
 }
